@@ -7,8 +7,9 @@ namespace CSharpStandardSamples.Benchmarks
     {
         static void Main(string[] args)
         {
-            //BenchmarkRunner.Run<BytesToStruct>();
-            BenchmarkRunner.Run<StructToBytes>();
+            BenchmarkRunner.Run<BytesToStruct>();
+            //BenchmarkRunner.Run<StructToBytes>();
+            //BenchmarkRunner.Run<SizeofStruct>();
         }
     }
 }

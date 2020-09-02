@@ -5,11 +5,12 @@ using System.Linq;
 
 namespace CSharpStandardSamples.Benchmarks
 {
-    /*  |          Method |      Mean |      Error |    StdDev |
-     *  |---------------- |----------:|-----------:|----------:|
-     *  |  ParseByMarshal | 431.25 ns | 218.834 ns | 11.995 ns |
-     *  | ParseByGCHandle | 364.79 ns |  24.069 ns |  1.319 ns |
-     *  | ParseBySpanCast |  25.97 ns |   4.086 ns |  0.224 ns |
+    /*  |------------------ |----------:|-----------:|---------:|
+     *  |    ParseByMarshal | 463.68 ns | 144.499 ns | 7.920 ns |
+     *  |   ParseByGCHandle | 389.87 ns |  70.058 ns | 3.840 ns |
+     *  |   ParseBySpanCast |  26.56 ns |   7.473 ns | 0.410 ns |
+     *  | ParseByUnsafeRead |  24.33 ns |   2.451 ns | 0.134 ns |
+     *  |   ParseByUnsafeAs |  26.68 ns |  11.403 ns | 0.625 ns |
      */
 
     //[DryJob]        // 動作確認用の実行
@@ -46,6 +47,18 @@ namespace CSharpStandardSamples.Benchmarks
         public void ParseBySpanCast()
         {
             var s = StructExtension.ParseBySpanCast<MyStruct>(_sourceBytes);
+        }
+
+        [Benchmark]
+        public void ParseByUnsafeRead()
+        {
+            var s = StructExtension.ParseByUnsafeRead<MyStruct>(_sourceBytes);
+        }
+
+        [Benchmark]
+        public void ParseByUnsafeAs()
+        {
+            var s = StructExtension.ParseByUnsafeAs<MyStruct>(_sourceBytes);
         }
 
     }

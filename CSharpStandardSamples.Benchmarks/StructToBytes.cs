@@ -4,11 +4,12 @@ using System;
 
 namespace CSharpStandardSamples.Benchmarks
 {
-    /*  |             Method |      Mean |     Error |    StdDev |
-     *  |------------------- |----------:|----------:|----------:|
-     *  |  GetBytesByMarshal | 356.57 ns | 235.65 ns | 12.917 ns |
-     *  | GetBytesByGCHandle | 272.35 ns | 131.16 ns |  7.189 ns |
-     *  | GetBytesBySpanCast |  76.69 ns |  38.05 ns |  2.086 ns |
+    /*  |             Method |      Mean |      Error |    StdDev |
+     *  |------------------- |----------:|-----------:|----------:|
+     *  |  GetBytesByMarshal | 345.84 ns | 784.582 ns | 43.006 ns |
+     *  | GetBytesByGCHandle | 251.49 ns | 141.881 ns |  7.777 ns |
+     *  | GetBytesBySpanCast |  78.61 ns |   9.676 ns |  0.530 ns |
+     *  |   GetBytesByUnsafe |  89.14 ns |  45.489 ns |  2.493 ns |
      */
 
     //[DryJob]        // 動作確認用の実行
@@ -50,6 +51,12 @@ namespace CSharpStandardSamples.Benchmarks
         public void GetBytesBySpanCast()
         {
             var bs = StructExtension.GetBytesBySpanCast(_myStruct);
+        }
+
+        [Benchmark]
+        public void GetBytesByUnsafe()
+        {
+            var bs = StructExtension.GetBytesByUnsafe(_myStruct);
         }
 
     }

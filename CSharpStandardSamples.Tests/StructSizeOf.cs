@@ -1,5 +1,6 @@
 using FluentAssertions;
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Xunit;
 
@@ -18,7 +19,7 @@ namespace CSharpStandardSamples.Tests
         readonly struct AutoPack8
         {
             public readonly byte A;
-            public readonly long B;
+            public readonly Int64 B;
             public readonly byte C;
         }
 
@@ -26,7 +27,10 @@ namespace CSharpStandardSamples.Tests
         public void Auto()
         {
             Marshal.SizeOf<StructNoOption>().Should().Be(4);
+            Unsafe.SizeOf<StructNoOption>().Should().Be(4);
+
             //Marshal.SizeOf<AutoPack8>().Should().Be(8); // cannot be marshaled as an unmanaged structure
+            //Unsafe.SizeOf<AutoPack8>().Should().Be(8);
         }
     }
     #endregion

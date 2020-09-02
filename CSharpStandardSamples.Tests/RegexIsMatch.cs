@@ -99,5 +99,31 @@ namespace CSharpStandardSamples.Tests
             reg1.IsMatch("aiueo").Should().BeFalse();
         }
 
+        [Fact]
+        public void Match()
+        {
+            var srcName = "Jotaro";
+            var srcAge = 17;
+            var srcId = 60000;  // 0xea60
+            var source = $"Name:{srcName} Age={srcAge}   Id=0x{srcId:X8} ";
+
+            var reg0 = new Regex(@"^Name:(?<name>.+)\s+Age=(?<age>[0-9]+)\s+Id=0x(?<id>[0-9a-fA-F]+)\s*");
+
+            var match = reg0.Match(source);
+            match.Success.Should().BeTrue();
+
+            if (match.Success)
+            {
+                var regName = match.Groups["name"].Value;
+                regName.Should().Be(srcName);
+
+                var regAge = Convert.ToInt32(match.Groups["age"].Value);
+                regAge.Should().Be(srcAge);
+
+                var regId = Convert.ToInt32(match.Groups["id"].Value, 16);
+                regId.Should().Be(srcId);
+            }
+        }
+
     }
 }

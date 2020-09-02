@@ -50,6 +50,16 @@ namespace CSharpStandardSamples.Core.Structs
             return MemoryMarshal.Cast<byte, T>(buffer)[0];
         }
 
+        internal static T ParseByUnsafeRead<T>(Span<byte> buffer) where T : struct
+        {
+            return Unsafe.ReadUnaligned<T>(ref buffer.GetPinnableReference());
+        }
+
+        internal static T ParseByUnsafeAs<T>(Span<byte> buffer) where T : struct
+        {
+            return Unsafe.As<byte, T>(ref buffer.GetPinnableReference());
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static T Parse<T>(byte[] buffer) where T : struct
             => ParseBySpanCast<T>(buffer);

@@ -48,6 +48,14 @@ namespace CSharpStandardSamples.Core.Structs
             return spanBytes.ToArray();
         }
 
+        internal static byte[] GetBytesByUnsafe<T>(in T source) where T : struct
+        {
+            var size = Unsafe.SizeOf<T>();
+            var bs = new byte[size];
+            Unsafe.WriteUnaligned(ref bs[0], source);
+            return bs;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte[] GetBytes<T>(T source) where T : struct
             => GetBytesBySpanCast(source);
