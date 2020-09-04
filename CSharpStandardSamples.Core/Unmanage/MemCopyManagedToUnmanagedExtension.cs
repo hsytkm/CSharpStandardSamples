@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace CSharpStandardSamples.Core.MemCopies
+namespace CSharpStandardSamples.Core.Unmanage
 {
     /* 
      * https://github.com/hsytkm/UnmanagedMemoryCopySamples
      */
-    static partial class MemCopyManagedToUnmanagedExtension
+    static class MemCopyManagedToUnmanagedExtension
     {
         internal static void CopyByMarshal(IntPtr destinationPointer, byte[] sourceArray, int length = 0)
         {

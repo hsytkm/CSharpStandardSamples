@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace CSharpStandardSamples.Core.Enums
+namespace CSharpStandardSamples.Core.Systems
 {
     /// <summary>
     /// 標準メソッドを直で読んでるだけのメソッドもあるけど、
@@ -40,6 +43,11 @@ namespace CSharpStandardSamples.Core.Enums
             }
             index = 0;
             return false;
+        }
+
+        public static IEnumerable<T> GetValues<T>() where T : Enum
+        {
+            return Enum.GetValues(typeof(T)).Cast<T>();
         }
 
     }

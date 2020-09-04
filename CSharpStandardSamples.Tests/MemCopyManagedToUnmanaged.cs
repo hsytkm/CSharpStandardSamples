@@ -3,7 +3,7 @@ using FluentAssertions;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
-using MyMemCopy = CSharpStandardSamples.Core.MemCopies.MemCopyManagedToUnmanagedExtension;
+using MyMemCopy = CSharpStandardSamples.Core.Unmanage.MemCopyManagedToUnmanagedExtension;
 
 namespace CSharpStandardSamples.Tests
 {
@@ -17,7 +17,7 @@ namespace CSharpStandardSamples.Tests
         
         public MemCopyManagedToUnmanaged()
         {
-            static byte[] GetZeroByteArray(int length)
+            static byte[] GetZeroPaddingByteArray(int length)
             {
                 var array = new byte[length];
                 for (int i = 0; i < length; ++i)
@@ -27,14 +27,14 @@ namespace CSharpStandardSamples.Tests
                 return array;
             }
 
-            _srcArray = GetZeroByteArray(ALLOCATE_SIZE);
+            _srcArray = GetZeroPaddingByteArray(ALLOCATE_SIZE);
             _destMemory = new UnmanagedMemory(ALLOCATE_SIZE);
         }
 
         private static byte[] IntPtrToByteArray(IntPtr srcPtr, int length)
         {
             var destArray = new byte[length];
-            Core.MemCopies.MemCopyUnmanagedToManagedExtension.CopyByMarshal(destArray, srcPtr);
+            MemCopyUnmanagedToManagedExtension.CopyByMarshal(destArray, srcPtr);
             return destArray;
         }
 

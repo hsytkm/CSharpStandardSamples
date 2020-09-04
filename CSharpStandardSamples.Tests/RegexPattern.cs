@@ -6,7 +6,7 @@ using Xunit;
 namespace CSharpStandardSamples.Tests
 {
     // https://docs.microsoft.com/ja-jp/dotnet/api/system.text.regularexpressions.regex
-    public class RegexIsMatch
+    public class RegexPattern
     {
         [Fact]
         public void Or()
@@ -59,6 +59,11 @@ namespace CSharpStandardSamples.Tests
             reg0.IsMatch("I do.").Should().BeTrue();
             reg0.IsMatch("全角　スペースも　ＯＫ").Should().BeTrue();
             reg0.IsMatch("abcd").Should().BeFalse();
+
+            // Not space
+            var reg1 = new Regex(@"\S+");
+            reg1.IsMatch("X").Should().BeTrue();
+            reg1.IsMatch("  　").Should().BeFalse();
         }
 
         [Fact]
@@ -83,6 +88,12 @@ namespace CSharpStandardSamples.Tests
             reg0.IsMatch("令和12年").Should().BeTrue();
             reg0.IsMatch("令和３年").Should().BeTrue();     // 全角もOK
             reg0.IsMatch("令和元年").Should().BeFalse();
+
+            // Not number
+            var reg1 = new Regex(@"令和\D+年");
+            reg1.IsMatch("令和元年").Should().BeTrue();
+            reg1.IsMatch("令和2年").Should().BeFalse();
+            reg1.IsMatch("令和２年").Should().BeFalse();
         }
 
         [Fact]
@@ -100,28 +111,18 @@ namespace CSharpStandardSamples.Tests
         }
 
         [Fact]
-        public void Match()
+        public void Kutouten()
         {
-            var srcName = "Jotaro";
-            var srcAge = 17;
-            var srcId = 60000;  // 0xea60
-            var source = $"Name:{srcName} Age={srcAge}   Id=0x{srcId:X8} ";
+            var reg0 = new Regex(@"\p{P}");     // 1文字の句読点
 
-            var reg0 = new Regex(@"^Name:(?<name>.+)\s+Age=(?<age>[0-9]+)\s+Id=0x(?<id>[0-9a-fA-F]+)\s*");
-
-            var match = reg0.Match(source);
-            match.Success.Should().BeTrue();
-
-            if (match.Success)
+            var words = new[]
             {
-                var regName = match.Groups["name"].Value;
-                regName.Should().Be(srcName);
+                ",", ".", "!", "、", "。", "「", "」", "，", "．", "『", "【",
+            };
 
-                var regAge = Convert.ToInt32(match.Groups["age"].Value);
-                regAge.Should().Be(srcAge);
-
-                var regId = Convert.ToInt32(match.Groups["id"].Value, 16);
-                regId.Should().Be(srcId);
+            foreach (var p in words)
+            {
+                reg0.IsMatch(p).Should().BeTrue();
             }
         }
 

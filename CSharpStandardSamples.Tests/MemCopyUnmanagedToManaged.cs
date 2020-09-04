@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Xunit;
-using MyMemCopy = CSharpStandardSamples.Core.MemCopies.MemCopyUnmanagedToManagedExtension;
+using MyMemCopy = CSharpStandardSamples.Core.Unmanage.MemCopyUnmanagedToManagedExtension;
 
 namespace CSharpStandardSamples.Tests
 {
