@@ -26,6 +26,7 @@ namespace CSharpStandardSamples.Tests
         [Fact]
         public void MatchSuccess()
         {
+            _match.Should().NotBeNull();
             _match.Success.Should().BeTrue();
             _match.Groups.Should().NotBeEmpty();
         }

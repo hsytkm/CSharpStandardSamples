@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -58,6 +59,11 @@ namespace CSharpStandardSamples.Tests
             var reg0 = new Regex(@"\s+");
             reg0.IsMatch("I do.").Should().BeTrue();
             reg0.IsMatch("全角　スペースも　ＯＫ").Should().BeTrue();
+            reg0.IsMatch("\t").Should().BeTrue();
+            reg0.IsMatch(Environment.NewLine).Should().BeTrue();
+            reg0.IsMatch("\n").Should().BeTrue();
+            reg0.IsMatch("\r").Should().BeTrue();
+            reg0.IsMatch("\r\n").Should().BeTrue();
             reg0.IsMatch("abcd").Should().BeFalse();
 
             // Not space
@@ -124,6 +130,20 @@ namespace CSharpStandardSamples.Tests
             {
                 reg0.IsMatch(p).Should().BeTrue();
             }
+        }
+
+        [Fact]
+        public void Length()
+        {
+            var text = "The quick brown fox jumps over the lazy dog.";
+
+            var matches = Regex.Matches(text, @"\b\w{3}\b");    // 3文字
+            var words = matches.Cast<Match>().Select(m => m.Value).ToArray();
+
+            words[0].Should().Be("The");
+            words[1].Should().Be("fox");
+            words[2].Should().Be("the");
+            words[3].Should().Be("dog");
         }
 
     }

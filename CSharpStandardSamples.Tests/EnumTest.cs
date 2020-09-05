@@ -5,6 +5,29 @@ using MyEnum = CSharpStandardSamples.Core.Systems.EnumExtension;
 
 namespace CSharpStandardSamples.Tests
 {
+    enum JoJoHero
+    {
+        Jonathan = 1,
+        Joseph,
+        Jotaro,
+        Josuke,
+        Giorno,
+        Jolyne,
+        Johnny
+    };
+
+    enum JoJoStory
+    {
+        PhantomBlood = 1,
+        BattleTendency,
+        StardustCrusaders,
+        DiamondIsUnbreakable,
+        GoldenWind,
+        StoneOcean,
+        SteelBallRun,
+        JoJolion
+    };
+
     public class EnumTest
     {
         [Fact]
