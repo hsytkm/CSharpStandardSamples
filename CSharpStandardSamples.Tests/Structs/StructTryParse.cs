@@ -4,7 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using Xunit;
 
-namespace CSharpStandardSamples.Tests
+namespace CSharpStandardSamples.Tests.Structs
 {
     public class StructTryParse
     {

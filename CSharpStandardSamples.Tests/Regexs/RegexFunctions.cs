@@ -3,7 +3,7 @@ using System;
 using System.Text.RegularExpressions;
 using Xunit;
 
-namespace CSharpStandardSamples.Tests
+namespace CSharpStandardSamples.Tests.Regexs
 {
     // https://docs.microsoft.com/ja-jp/dotnet/api/system.text.regularexpressions.regex
     public class RegexFunctions
@@ -33,6 +33,15 @@ namespace CSharpStandardSamples.Tests
             words[0].Should().Be("abc");
             words[3].Should().Be("あいう");
             words[^1].Should().Be("123");   // .Last()
+        }
+
+        [Fact]
+        public void Escape()
+        {
+            // 正規表現要素をエスケープした文字列を取得
+            Regex.Escape("(").Should().Be(@"\(");
+            Regex.Escape("[").Should().Be("\\[");
+            Regex.Escape("(abc)").Should().Be(@"\(abc\)");
         }
 
     }

@@ -3,7 +3,7 @@ using System;
 using Xunit;
 using MyConvert = CSharpStandardSamples.Core.Systems.ConvertExtension;
 
-namespace CSharpStandardSamples.Tests
+namespace CSharpStandardSamples.Tests.Systems
 {
     public class ConvertStringHex
     {

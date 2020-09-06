@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
 
-namespace CSharpStandardSamples.Tests
+namespace CSharpStandardSamples.Tests.Regexs
 {
     // https://docs.microsoft.com/ja-jp/dotnet/api/system.text.regularexpressions.regex
     public class RegexPattern
@@ -28,15 +28,67 @@ namespace CSharpStandardSamples.Tests
         [Fact]
         public void Repeat()
         {
-            // 任意が0文字以上
+            // 任意文字が0回以上
             var reg0 = new Regex(@"back.*");
             reg0.IsMatch("backup").Should().BeTrue();
             reg0.IsMatch("back").Should().BeTrue();
 
-            // 任意が1文字以上
+            // 任意文字が1回以上
             var reg1 = new Regex(@"back.+");
             reg1.IsMatch("background").Should().BeTrue();
             reg1.IsMatch("back").Should().BeFalse();
+
+            // 任意文字が0か1回
+            var reg2 = new Regex(@"-?\d+");
+            reg2.IsMatch("123").Should().BeTrue();
+            reg2.IsMatch("-123").Should().BeTrue();
+            reg2.IsMatch("-a").Should().BeFalse();
+        }
+
+        [Fact]
+        public void RepeatN()
+        {
+            // 直前文字の桁数の指定
+            var reg0 = new Regex(@"\d{3}");
+            reg0.IsMatch("12").Should().BeFalse();
+            reg0.IsMatch("123").Should().BeTrue();
+
+            reg0.IsMatch("1234").Should().BeTrue();     // ヒットしなさそうでする
+            reg0.Matches("1234").Should().NotBeEmpty().And.HaveCount(1);
+            reg0.Matches("1234").First().Value.Should().Be("123");
+
+            // 直前文字の最小桁数の指定
+            var reg1 = new Regex(@"\d{3,}");
+            reg1.IsMatch("12").Should().BeFalse();
+            reg1.IsMatch("123").Should().BeTrue();
+
+            reg1.IsMatch("1234").Should().BeTrue();     // ヒットしなさそうでする
+            reg1.Matches("1234").Should().NotBeEmpty().And.HaveCount(1);
+            reg1.Matches("1234").First().Value.Should().Be("1234");
+        }
+
+        [Fact]
+        public void RepeatNM()
+        {
+            // 直前文字の最小桁数と最大桁数を指定(最長一致)
+            var reg2 = new Regex(@"\d{3,5}");
+            reg2.IsMatch("12").Should().BeFalse();
+            reg2.IsMatch("123").Should().BeTrue();
+            reg2.IsMatch("12345").Should().BeTrue();
+
+            reg2.IsMatch("123456").Should().BeTrue();   // ヒットしなさそうでする
+            reg2.Matches("123456").Should().NotBeEmpty().And.HaveCount(1);
+            reg2.Matches("123456").First().Value.Should().Be("12345");
+
+            // 直前文字の最小桁数と最大桁数を指定(最短一致)
+            var reg3 = new Regex(@"\d{3,5}?");
+            reg3.IsMatch("12").Should().BeFalse();
+            reg3.IsMatch("123").Should().BeTrue();
+            reg3.IsMatch("12345").Should().BeTrue();
+
+            reg3.IsMatch("123456").Should().BeTrue();   // ヒットしなさそうでする
+            reg3.Matches("123456").Should().NotBeEmpty().And.HaveCount(2);
+            reg3.Matches("123456").Select(x => x.Value).Should().ContainEquivalentOf("123", "456");
         }
 
         [Fact]

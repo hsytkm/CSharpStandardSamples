@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace CSharpStandardSamples.Core.Unmanage
+namespace CSharpStandardSamples.Core.Unmanages
 {
     [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<保留中>")]
     public struct UnmanagedMemory : IEquatable<UnmanagedMemory>, IDisposable

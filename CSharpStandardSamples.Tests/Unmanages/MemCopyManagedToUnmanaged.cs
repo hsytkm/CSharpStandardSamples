@@ -1,11 +1,11 @@
-using CSharpStandardSamples.Core.Unmanage;
+using CSharpStandardSamples.Core.Unmanages;
 using FluentAssertions;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
-using MyMemCopy = CSharpStandardSamples.Core.Unmanage.MemCopyManagedToUnmanagedExtension;
+using MyMemCopy = CSharpStandardSamples.Core.Unmanages.MemCopyManagedToUnmanagedExtension;
 
-namespace CSharpStandardSamples.Tests
+namespace CSharpStandardSamples.Tests.Unmanages
 {
     [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<•Û—¯’†>")]
     public class MemCopyManagedToUnmanaged : IDisposable

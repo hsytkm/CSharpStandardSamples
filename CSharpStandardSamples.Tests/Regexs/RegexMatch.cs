@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Xunit;
 
-namespace CSharpStandardSamples.Tests
+namespace CSharpStandardSamples.Tests.Regexs
 {
     // https://docs.microsoft.com/ja-jp/dotnet/api/system.text.regularexpressions.regex
     public class RegexMatch

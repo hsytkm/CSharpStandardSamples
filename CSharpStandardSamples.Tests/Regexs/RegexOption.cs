@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
 
-namespace CSharpStandardSamples.Tests
+namespace CSharpStandardSamples.Tests.Regexs
 {
     // https://docs.microsoft.com/ja-jp/dotnet/standard/base-types/regular-expression-options
     // https://docs.microsoft.com/ja-jp/dotnet/api/system.text.regularexpressions.regexoptions

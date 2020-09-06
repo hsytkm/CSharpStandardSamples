@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace CSharpStandardSamples.Core.Unmanage
+namespace CSharpStandardSamples.Core.Unmanages
 {
     /* 
      * https://github.com/hsytkm/UnmanagedMemoryCopySamples

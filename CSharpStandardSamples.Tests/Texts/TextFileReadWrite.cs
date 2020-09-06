@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace CSharpStandardSamples.Tests
+namespace CSharpStandardSamples.Tests.Texts
 {
     [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<•Û—¯’†>")]
     public class TextFileReadWrite : IDisposable

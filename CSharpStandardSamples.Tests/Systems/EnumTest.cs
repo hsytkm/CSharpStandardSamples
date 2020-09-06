@@ -3,7 +3,7 @@ using System.Linq;
 using Xunit;
 using MyEnum = CSharpStandardSamples.Core.Systems.EnumExtension;
 
-namespace CSharpStandardSamples.Tests
+namespace CSharpStandardSamples.Tests.Systems
 {
     enum JoJoHero
     {
