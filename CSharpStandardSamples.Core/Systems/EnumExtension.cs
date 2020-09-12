@@ -47,7 +47,7 @@ namespace CSharpStandardSamples.Core.Systems
 
         public static IEnumerable<T> GetValues<T>() where T : Enum
         {
-            return Enum.GetValues(typeof(T)).Cast<T>();
+            return Enum.GetValues(typeof(T)).OfType<T>();
         }
 
     }

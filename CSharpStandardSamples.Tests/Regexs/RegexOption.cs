@@ -35,12 +35,12 @@ namespace CSharpStandardSamples.Tests.Regexs
             var pattern = @"\b\w{3}\b";     // 3文字
 
             var values0 = Regex.Matches(input, pattern)
-                .Cast<Match>()
+                .OfType<Match>()
                 .Select(m => m.Value);
             values0.Should().BeEquivalentTo(threeLengths);
 
             var values1 = Regex.Matches(input, pattern, RegexOptions.RightToLeft)
-                .Cast<Match>()
+                .OfType<Match>()
                 .Select(m => m.Value);
             values1.Should().BeEquivalentTo(threeLengths.Reverse());
         }
@@ -57,13 +57,13 @@ namespace CSharpStandardSamples.Tests.Regexs
             string input = "one" + Environment.NewLine + "two";
 
             var values0 = Regex.Matches(input, pattern)
-                .Cast<Match>()
+                .OfType<Match>()
                 .Select(m => m.Value);
             values0.Should().NotBeEmpty().And.HaveCount(1);
             values0.First().Should().NotContain("two");
 
             var values1 = Regex.Matches(input, pattern, RegexOptions.Singleline)
-                .Cast<Match>()
+                .OfType<Match>()
                 .Select(m => m.Value);
             values1.Should().NotBeEmpty().And.HaveCount(1);
             values1.First().Should().Contain("two");

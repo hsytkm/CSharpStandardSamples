@@ -190,7 +190,7 @@ namespace CSharpStandardSamples.Tests.Regexs
             var text = "The quick brown fox jumps over the lazy dog.";
 
             var matches = Regex.Matches(text, @"\b\w{3}\b");    // 3文字
-            var words = matches.Cast<Match>().Select(m => m.Value).ToArray();
+            var words = matches.OfType<Match>().Select(m => m.Value).ToArray();
 
             words[0].Should().Be("The");
             words[1].Should().Be("fox");

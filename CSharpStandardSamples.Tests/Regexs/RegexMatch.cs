@@ -82,11 +82,11 @@ namespace CSharpStandardSamples.Tests.Regexs
             var match = _match;
             match.Success.Should().BeTrue();
 
-            Func<int> func0 = () => match.GetValue<int>(-100);
-            func0.Should().Throw<KeyNotFoundException>();
+            Action act0 = () => match.GetValue<int>(-100);
+            act0.Should().Throw<KeyNotFoundException>();
 
-            Func<int> func1 = () => match.GetValue<int>("not_exist_key");
-            func1.Should().Throw<KeyNotFoundException>();
+            Action act1 = () => match.GetValue<int>("not_exist_key");
+            act1.Should().Throw<KeyNotFoundException>();
         }
 
     }
