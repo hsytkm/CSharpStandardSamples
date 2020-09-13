@@ -1,5 +1,7 @@
-﻿using FluentAssertions;
+﻿using CSharpStandardSamples.Core.Spans;
+using FluentAssertions;
 using System;
+using System.Buffers;
 using System.Linq;
 using Xunit;
 
@@ -33,19 +35,73 @@ namespace CSharpStandardSamples.Tests.Spans
         [InlineData(64)]
         public void SwitchAllocate(int size)
         {
-            if (size > byte.MaxValue) throw new ArgumentException();
+            if (size > 0xff) throw new ArgumentException();
 
             // 要求サイズに応じて確保元をを切り替える
-            Span<byte> span = size <= 32 ? stackalloc byte[size] : new byte[size];
+            Span<byte> bytes = size <= 32 ? stackalloc byte[size] : new byte[size];
 
-            for (var i = 0; i < span.Length; ++i)
+            for (var i = 0; i < bytes.Length; ++i)
             {
-                span[i] = (byte)i;
+                bytes[i] = (byte)(i % 0xff);
             }
 
-            span.ToArray().Should().BeEquivalentTo(Enumerable.Range(0, size));
+            var answer = Enumerable.Range(0, size).Select(x => x % 0xff);
+            bytes.ToArray().Should().BeEquivalentTo(answer);
         }
 
+        /*  Pooling large arrays with ArrayPool
+         *  https://adamsitnik.com/Array-Pool/
+         *      that it has a default max array length, equal to 2^20 (1024*1024 = 1 048 576).
+         *   
+         *  LitJWTに見るモダンなC#のbyte[]とSpan操作法
+         *  http://neue.cc/2019/05/27_578.html
+         *      ようするに、今どきnew byte[]なんてしたら殺されるぞ！
+         */
+        [Theory]
+        [InlineData(32)]
+        [InlineData(1024)]
+        public void SwitchAllocate2_1(int size)
+        {
+            var allocSizeMax = 128 * 1024;  // 1MByte最大っぽいので控えめに128KByte
+            if (size > allocSizeMax) throw new ArgumentException();
+
+            var rentBytes = ArrayPool<byte>.Shared.Rent(size);
+            try
+            {
+                Span<byte> bytes = rentBytes.AsSpan();
+
+                for (var i = 0; i < bytes.Length; ++i)
+                {
+                    bytes[i] = (byte)(i % 0xff);
+                }
+
+                var answer = Enumerable.Range(0, size).Select(x => x % 0xff);
+                bytes.ToArray().Should().BeEquivalentTo(answer);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(rentBytes);
+            }
+        }
+
+        [Theory]
+        [InlineData(32)]
+        [InlineData(1024)]
+        public void SwitchAllocate2_2(int size)
+        {
+            var allocSizeMax = 128 * 1024;  // 1MByte最大っぽいので控えめに128KByte
+            if (size > allocSizeMax) throw new ArgumentException();
+
+            // 自作クラスで ArrayPool を管理
+            using var bytes = new PooledArray<byte>(size);
+            for (var i = 0; i < bytes.Length; ++i)
+            {
+                bytes[i] = (byte)(i % 0xff);
+            }
+
+            var answer = Enumerable.Range(0, size).Select(x => x % 0xff);
+            bytes.Array.Should().BeEquivalentTo(answer);
+        }
 
     }
 }

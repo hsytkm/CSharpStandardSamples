@@ -4,39 +4,40 @@ using System.Runtime.InteropServices;
 
 namespace CSharpStandardSamples.Core.Unmanages
 {
+    /// <summary>
+    /// アンマネージドなメモリの管理クラス（Disposeで返却する）
+    /// </summary>
     [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<保留中>")]
     public struct UnmanagedMemory : IEquatable<UnmanagedMemory>, IDisposable
     {
         public IntPtr IntPtr { get; private set; }
         public int Length { get; private set; }
 
-        public UnmanagedMemory(int length)
-        {
-            (IntPtr, Length) = AllocZeroMem(length);
-        }
+        public UnmanagedMemory(int length) => (IntPtr, Length) = AllocMem(length);
 
-        public UnmanagedMemory(IntPtr intPtr, int length) =>
-            (IntPtr, Length) = (intPtr, length);
+        //public UnmanagedMemory(IntPtr intPtr, int length) => (IntPtr, Length) = (intPtr, length);
 
-        private static (IntPtr intPtr, int length) AllocZeroMem(int requestLength)
+        private static (IntPtr intPtr, int length) AllocMem(int requestLength, bool isFillZero = true)
         {
+            if (requestLength <= 0) throw new ArgumentOutOfRangeException();
+
             var intPtr = Marshal.AllocCoTaskMem(requestLength);
-            FillZero(intPtr, requestLength);
+            if (isFillZero) FillZero(intPtr, requestLength);
             return (intPtr, requestLength);
-        }
 
-        private static void FillZero(IntPtr intPtr, int length)
-        {
-            var rest = length;
-            while (rest >= sizeof(ulong))
+            static void FillZero(IntPtr intPtr, int length)
             {
-                Marshal.WriteInt64(intPtr, rest - sizeof(ulong), 0);
-                rest -= sizeof(ulong);
-            }
-            while (rest >= 1)
-            {
-                Marshal.WriteByte(intPtr, rest - 1, 0);
-                rest--;
+                var rest = length;
+                while (rest >= sizeof(ulong))
+                {
+                    Marshal.WriteInt64(intPtr, rest - sizeof(ulong), 0);
+                    rest -= sizeof(ulong);
+                }
+                while (rest >= 1)
+                {
+                    Marshal.WriteByte(intPtr, rest - 1, 0);
+                    rest--;
+                }
             }
         }
 
