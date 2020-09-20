@@ -12,7 +12,9 @@ namespace CSharpStandardSamples.Tests.Structs
         // Default layout is 'Auto'
         readonly struct StructNoOption
         {
+#pragma warning disable 0649
             public readonly Int32 data;
+#pragma warning restore 0649
         }
 
         [StructLayout(LayoutKind.Auto, Pack = 8)]
