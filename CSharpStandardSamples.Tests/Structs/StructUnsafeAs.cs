@@ -24,6 +24,7 @@ namespace CSharpStandardSamples.Tests.Structs
         readonly struct ReadOnlyUInt64
         {
             public readonly UInt64 x0;
+            public static implicit operator UInt64(ReadOnlyUInt64 ro) => ro.x0;
         }
 
         [Fact]
@@ -40,6 +41,7 @@ namespace CSharpStandardSamples.Tests.Structs
             Marshal.SizeOf<ReadOnlyUInt64>().Should().Be(8);
             ref var ro64 = ref Unsafe.As<Fixed8, ReadOnlyUInt64>(ref fixed8);
             //ro64.x0 = 0;  readonly ‚È‚Ì‚Å‘ã“ü•s‰Â
+            ((UInt64)ro64).Should().Be(0x_0123_4567_89ab_cdef);
 
             ref var bytes4_0 = ref Unsafe.As<Fixed8, byte>(ref fixed8);
             bytes4_0.Should().Be(0xef);

@@ -32,4 +32,25 @@
     <ProjectReference Include="..\CSharpStandardSamples.Core\CSharpStandardSamples.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="T4\MyBytesTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MyBytesTemplate.tt</DependentUpon>
+    </None>
+    <None Update="T4\MyBytesTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MyBytesTemplate.cs</LastGenOutput>
+    </None>
+    <Compile Update="T4\MyBytesTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MyBytesTemplate.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
