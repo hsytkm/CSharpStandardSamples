@@ -86,7 +86,7 @@ namespace CSharpStandardSamples.Tests.Spans
 
         [Theory]
         [InlineData(32)]
-        [InlineData(1024)]
+        [InlineData(30)]
         public void SwitchAllocate2_2(int size)
         {
             var allocSizeMax = 128 * 1024;  // 1MByte最大っぽいので控えめに128KByte
@@ -100,7 +100,7 @@ namespace CSharpStandardSamples.Tests.Spans
             }
 
             var answer = Enumerable.Range(0, size).Select(x => x % 0xff);
-            bytes.Array.Should().BeEquivalentTo(answer);
+            bytes.RoSpan.ToArray().Should().BeEquivalentTo(answer);
         }
 
     }
