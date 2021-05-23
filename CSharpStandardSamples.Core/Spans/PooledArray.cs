@@ -30,9 +30,10 @@ namespace CSharpStandardSamples.Core.Spans
         public int Length { get; }
 
         private readonly ArrayPool<T> _pool;
+        private bool _disposed;
 
         private PooledArray(int minimumLength, ArrayPool<T> pool) =>
-            (_array, _pool, Length) = (pool.Rent(minimumLength), pool, minimumLength);
+            (_array, _pool, Length, _disposed) = (pool.Rent(minimumLength), pool, minimumLength, false);
 
         public PooledArray(int minimumLength) : this(minimumLength, ArrayPool<T>.Shared)
         { }
@@ -42,6 +43,13 @@ namespace CSharpStandardSamples.Core.Spans
 
         public ref T this[int index] => ref _array[index];
 
-        public void Dispose() => _pool.Return(_array);
+        public void Dispose()
+        {
+            if (!_disposed)
+            {
+                _pool.Return(_array);
+                _disposed = true;
+            }
+        }
     }
 }
